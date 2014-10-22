@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MT</title>
+	<style type="text/css">
+		.bgcolor1{
+			background-color: #cccccc;
+		}
+		.bgcolor2{
+			background-color: #ffffff;
+		}
+		div.myTT{
+			float: left;
+			text-align: center;
+		}
+		div.classTT{
+			float: left;
+			text-align: center;
+		}
+		#help{
+			width: 200px;
+			height: 300px;
+			position: fixed;
+			margin: auto;
+		}
+	</style>
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+
+</head>
+<body>
+	<script type="text/javascript">
+	
+		function tabtab(num) {
+			var classTable = document.getElementById("classTT");
+			day = classTable.rows[num].cells[9].innerHTML;
+			start = classTable.rows[num].cells[10].innerHTML;
+			end = classTable.rows[num].cells[11].innerHTML;
+			prof = classTable.rows[num].cells[3].innerHTML;
+			lecture = classTable.rows[num].cells[6].innerHTML;
+
+			var myTable = document.getElementById("myTT");
+			dayNumber = days(day);
+
+			for(var i = 0; i <= end-start; i++){
+				for(var j = 0; j <= end-start; j++){
+
+				}
+			}
+
+
+			for(var i = 0; i <= end-start; i++){
+				myTable.rows[start - 8 + i].cells[dayNumber].innerHTML = prof + "<br/>" + lecture;
+			}
+			if(classTable.rows[num + 1].cells[1].innerHTML == classTable.rows[num].cells[1].innerHTML){
+				tabtab(num+1);
+			}else if(classTable.rows[num - 1].cells[1].innerHTML == classTable.rows[num].cells[1].innerHTML){
+				tabtab(num-1);
+			}
+		}
+		function days (day) {
+			if(day == "월"){
+				return 1;
+			}else if(day == "화"){
+				return 2;
+			}else if(day == "수"){
+				return 3;
+			}else if(day == "목"){
+				return 4;
+			}else if(day == "금"){
+				return 5;
+			}else if(day == "토"){
+				return 6;
+			}
+		}
+		$(document).ready(function(){
+			var open = false;
+			$('#help').hide();
+			$('#helpBtn').click(function(){
+				if(open){
+					$('#help').hide();
+					open = false;
+				}else{
+					$('#help').show();
+					open = true;
+				}
+			});
+			$('#helpClose').click(function(){
+				$('#help').hide();
+				open = false;
+			});
+			var rowIndex = 1;
+			var colIndex = 1;
+			var startCol = 1;
+			for(rowIndex = 1; rowIndex < $('#classTT tr').length; rowIndex ++){
+				if($('#classTT tr:eq('+rowIndex+') > td:eq('+colIndex+')').html() == $('#classTT tr:eq('+(rowIndex + 1)+') > td:eq('+colIndex+')').html()){
+					for(colIndex = startCol; colIndex < 7; colIndex ++){
+						//$('#classTT tr:eq('+(rowIndex + 1)+') > td:eq('+colIndex+')').html('');
+						$('#classTT tr:eq('+(rowIndex + 1)+') > td:eq('+startCol+')').remove();
+						$('#classTT tr:eq('+rowIndex+') > td:eq('+colIndex+')').attr('rowspan', 2);
+					}
+				}
+				colIndex = startCol;
+			}
+		});
+	</script>
+
+	<div>
+		
+		<a href="{{ url_for("bugreport") }}">
+			<input type="button" value = "버그신고"/>
+		</a>
+		<input type="button" id="helpBtn" value = "사용법"/>
+	</div>
+	<div id = "help">
+		설명서
+		<input type="button" id="helpClose" value = "닫기">
+	</div>
+	<center>
+	    <form action="{{ url_for("update") }}" enctype="multipart/form-data" method="POST">
+	        <p>File : <input type="file" name="xlsFlie"></p>
+	        <input type="submit" value="submit">
+	    </form>
+	    <a href="{{ url_for("updateStatic")}} ">staic</a>
+
+	    <div class="classTT">
+		    <table id = "classTT">
+		    	<tr>
+		    		<td></td>
+		    		<td>번호</td>
+		    		<td>학년</td>
+		    		<td>과목명</td>
+		    		<td>학점</td>
+		    		<td>수업시간</td>
+		    		<td>교수</td>
+		    		<td>강좌번호</td>
+		    		<td>제한</td>
+		    		<td>요일</td>
+		    		<td>시작(시)</td>
+		    		<td>끝(시)</td>
+		    		<td>강의실</td>
+		    	</tr>
+				{% for i in classList %}
+					<tr onClick="javascript:tabtab({{i[0]}})">
+					{% for j in i %}
+						{% if i[1] % 2 == 0 %}
+							<td class = "bgcolor1">{{ j }}</td>
+						{% else %}
+							<td class = "bgcolor2">{{ j }}</td>
+						{% endif %}
+					{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="myTT">
+			<table class="myTT" id = "myTT">
+				<tr class="myTT">
+					<td class="myTT myTTTitle"></td>
+					<td class="myTT myTTTitle">월</td>
+					<td class="myTT myTTTitle">화</td>
+					<td class="myTT myTTTitle">수</td>
+					<td class="myTT myTTTitle">목</td>
+					<td class="myTT myTTTitle">금</td>
+					<td class="myTT myTTTitle">토</td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">1교시<br/>9시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">2교시<br/>10시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">3교시<br/>11시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">4교시<br/>12시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">5교시<br/>13시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">6교시<br/>14시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">7교시<br/>15시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">8교시<br/>16시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">9교시<br/>17시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+				<tr class="myTT">
+					<td class="myTT">10교시<br/>18시</td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+					<td class="myTT"></td>
+				</tr>
+			</table>
+		</div>
+	</center>
+</body>
+</html>

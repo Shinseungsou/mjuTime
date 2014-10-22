@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+	{% if activity == 'index' %}
+	<div>Logo</div>
+
+
+	<div class="indexNav">
+		
+		<div class="indexLobby">
+			logo
+		</div>
+		<div class="menuright">
+			<ul class="nav navbar-nav menubtn">
+				<li><div class="circle nevmenu menubtn inred">
+					<a href="{{ url_for("index3") }}">
+					hello2
+					</a>
+
+				</div></li>
+				<li><div class="circle nevmenu menubtn inblue">
+
+					<a href="{{ url_for("index2") }}">
+					hello
+					</a>
+				</div></li>
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+
+</nav>

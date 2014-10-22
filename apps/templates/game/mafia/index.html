@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Mafia</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/mafia.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://js.pusher.com/2.2/pusher.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		
+		var pusher = new Pusher('7a374a8c50c22eddd116');
+		var channel = pusher.subscribe('newchannel');
+// mainChat
+		channel.bind('event_msg', function(data){
+			$('#mainChatpanel').append("<div>"+data.name + ":" + data.msg+"</div>");
+		});
+		$('#send').click(function(){
+			var name = $('#chat_name').val();
+			var msg = $('#chat_msg').val();
+			$.get('/send',{
+				name_data : name,
+				msg_data : msg
+			}, function(data) {});
+		});
+
+		$('#cgName').hide();
+		$('#cgNameBtn').click(function(){
+			$('cgName').show();
+		});
+		$('#cgNameSubmit').click(function(){
+			$.get('/send',{
+				name_data : name,
+				msg_data : msg
+			}, function(data) {
+				window.location.reload();
+			});
+			$('cgName').hide();
+		});
+	});
+	</script>
+</head>
+<body>
+	<div id="mafia_game">
+		{{ if name }}
+			<div>{% name %}님 <input type="button" id="cgNameBtn" value="이름 바꾸기"></div>
+			<div id="cgName">
+				<input type="text" id="changeName">
+				<input type="button" id="cgNameSubmit" value="변경">
+			</div>
+			<form action = "/mkRoom" method="post">
+				<input type="text" id="mkRoom_name"/>	
+				<input type="submit" id="mkRoom_btn" value="방만들기"/>
+			</form>
+			<div id="roomList">
+				
+			</div>
+		{{ else }}
+	</div>
+</body>
+</html>
+

@@ -1,0 +1,81 @@
+#info{
+	width: 300px;
+}
+#info div{
+	width: 300px;
+}
+#main_chat{
+	width: 400px;
+	margin-right: 30px;
+	margin-left: 30px;
+}
+#main_chat div{
+	width: 400px;
+}
+#vote{
+	width: 300px;
+}
+#vote div{
+	width: 300px;
+}
+.chatPanel{
+	border: 1px solid gray;
+	overflow-y: scroll;
+}
+.chatform{
+	width : 300px;
+	margin: auto;
+}
+/*
+common
+*/
+#mafia_game{
+	width: 1100px;
+	margin: auto;
+}
+.chat_name{
+	width: 50px;
+}
+.chat_cont{
+	width: 180px;
+}
+.chat_send{
+	width: 40px;
+}
+#mafia_game{
+	display:box;
+	display: -webkit-box;
+	display: -moz-box; 
+	box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+}
+/*
+info
+*/
+#userList{
+	height: 290px;
+	overflow-y: scroll;
+}
+#jobChatpanel{
+	height: 400px;
+}
+/*
+main
+*/
+#mainChatpanel{
+	height: 700px;
+}
+/*
+vote
+*/
+#mainVote{
+	height: 290px;
+	overflow-y: scroll;
+	background-color: skyblue;
+}
+#jobVote{
+	height: 290px;
+	overflow-y: scroll;
+	background-color: skyblue;
+}

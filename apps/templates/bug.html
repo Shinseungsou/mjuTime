@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>버그 리포트</title>
+</head>
+<body>
+	    <div class="container">
+        <p>
+        {% if messages %}
+          {{ messages }}
+        {% endif %}
+        </p>
+        <p>
+        	1MB 이하의 사진 1개만 업로드 가능합니다.
+			버그에 대한 텍스트를 써주셔야합니다.
+			ex) ~~학과 시간표 업데이트
+			~~을 하니 서버 에러가 생김
+			~~학과 ~~ 시간표 변경
+        </p>
+
+        <form action="{{ url_for("upload_db") }}" enctype="multipart/form-data" method="POST">
+            <p>File : <input type="file" name="photo"></p>
+            <p>Text : <input type="textarea" name="text" length="80"></p>
+            <input type="submit" value="submit">
+        </form>
+
+        <br><br>
+        
+        <div class="image-row">
+            <div class="image-set">
+                {% for items in all_list %}
+                <div>
+                    {% if items.photo %}
+                    <!-- <a class="example-image-link" href="show/">
+                    	<img class="example-image" src="show/" alt="">
+                    </a> -->
+                    photo : {{items.photo}}<br/>
+                    {% endif %}
+
+                    text : {{ items.text }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

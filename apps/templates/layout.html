@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block layout %}
+    {% block navbar %}
+        {% include "navbar.html" %}
+    {% endblock %}
+
+    
+    <div class="lay_container {% if activity == 'index' %}bg_navy{%endif%} {% if activity == 'index' %}bg_lightgray{%endif%}">
+        {% block contents %}{% endblock %}
+    	
+    </div>
+   	
+   	
+	
+{% endblock %}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Mafia</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/mafia.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://js.pusher.com/2.2/pusher.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		
+		var pusher = new Pusher('7a374a8c50c22eddd116');
+		var channel = pusher.subscribe('newchannel');
+// mainChat
+		channel.bind('event_msg', function(data){
+			$('#mainChatpanel').append("<div>"+data.name + ":" + data.msg+"</div>");
+		});
+		$('#send').click(function(){
+			var name = $('#chat_name').val();
+			var msg = $('#chat_msg').val();
+			$.get('/send',{
+				name_data : name,
+				msg_data : msg
+			}, function(data) {});
+		});
+
+// jobChat
+		channel.bind('job_msg', function(data){
+			$('#jobChatpanel').append("<div>"+data.name + ":" + data.msg+"</div>");
+		});
+		$('#jobChat_send').click(function(){
+			var name = $('#JobChat_name').val();
+			var msg = $('#JobChat_msg').val();
+			$.get('/jobsend',{
+				name_data : name,
+				msg_data : msg
+			}, function(data) {});
+		});
+	});
+	</script>
+</head>
+<body>
+	<div id="mafia_game">
+		<div id="info">
+			<div  id="userList">
+				
+			</div>
+			<div id="jobChat">
+				<div id="myJob"></div>
+				<div id="jobChatpanel" class="chatPanel">
+				</div>
+				<div class="chatformchatform">
+					<input type="text" id="JobChat_name" class="chat_name" placeholder="이름"/>
+					<input type="text" id="JobChat_msg" class="chat_cont" placeholder="내용"/>
+					<input type="button" id="jobChat_send" class="chat_send" value="전송"/>
+				</div>
+						
+			</div>
+
+		</div>
+		<div id="main_chat">
+			
+			<div id="mainChatpanel" class="chatPanel">
+			</div>
+
+			<div class="chatform">
+				<input type="text" id="chat_name" class="chat_name" placeholder="이름"/>
+				<input type="text" id="chat_msg" class="chat_cont" placeholder="내용"/>
+				<input type="button" id="send" class="chat_send" value="전송"/>
+			</div>
+
+		</div>
+		<div id="vote">
+			<div id="option">
+				<input type="button" id="option" value="옵션">
+				<input type="button" id="game_option" value="게임옵션">
+				<input type="button" id="exit" value="나가기">
+			</div>
+			<div id="mainVote">
+				
+			</div>
+			<div id="jobVote">
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
